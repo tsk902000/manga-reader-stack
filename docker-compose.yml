@@ -12,6 +12,9 @@ services:
     environment:
       - TZ=${TZ}
       - SUWAYOMI_SERVER_DOWNLOAD_AS_CBZ=true
+      - AUTH_MODE=${SUWAYOMI_AUTH_MODE}
+      - AUTH_USERNAME=${ADMIN_EMAIL}
+      - AUTH_PASSWORD=${ADMIN_PASSWORD}
     user: "${PUID}:${PGID}"
 
   # --- THE LIBRARIAN ---
@@ -27,8 +30,8 @@ services:
     environment:
       - TZ=${TZ}
       # Note: Komga uses these for initial setup or internal auth
-      - KOMGA_USER=${KOMGA_ADMIN_EMAIL}
-      - KOMGA_PASSWORD=${KOMGA_ADMIN_PASSWORD}
+      - KOMGA_USER=${ADMIN_EMAIL}
+      - KOMGA_PASSWORD=${ADMIN_PASSWORD}
     user: "${PUID}:${PGID}"
 
   # --- THE METADATA FETCHED ---
@@ -43,7 +46,7 @@ services:
     environment:
       - TZ=${TZ}
       - KOMF_KOMGA_BASE_URL=http://komga:25600
-      - KOMF_KOMGA_USER=${KOMGA_ADMIN_EMAIL}
-      - KOMF_KOMGA_PASSWORD=${KOMGA_ADMIN_PASSWORD}
+      - KOMF_KOMGA_USER=${ADMIN_EMAIL}
+      - KOMF_KOMGA_PASSWORD=${ADMIN_PASSWORD}
     user: "${PUID}:${PGID}"
 
