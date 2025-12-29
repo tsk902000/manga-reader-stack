@@ -35,7 +35,9 @@ Under Server Settings, ensure the Komga URL is http://komga:25600 (this works be
 
 Once linked, Komf will monitor your Komga library. When Suwayomi drops a new chapter, Komga sees it, and Komf will automatically reach out to AniList/MyAnimeList to grab the metadata.
 
+# How to start downloading Manga
 
+1. Add this into Suwayomi extension with Repository: `https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json`
 
 # Trouble Shoot
 A Quick Note on File Permissions
