@@ -1,7 +1,7 @@
 services:
   # --- THE DOWNLOADER ---
   suwayomi:
-    image: ghcr.io/suwayomi/suwayomi-server:latest
+    image: ghcr.io/suwayomi/suwayomi-server:v2.1.2031
     container_name: suwayomi
     restart: unless-stopped
     ports:
@@ -11,7 +11,7 @@ services:
       - ./suwayomi/files:/home/suwayomi/.local/share/Tachidesk
     environment:
       - TZ=${TZ}
-      - SUWAYOMI_SERVER_DOWNLOAD_AS_CBZ=true
+      - DOWNLOAD_AS_CBZ=true
       - AUTH_MODE=${SUWAYOMI_AUTH_MODE}
       - AUTH_USERNAME=${ADMIN_EMAIL}
       - AUTH_PASSWORD=${ADMIN_PASSWORD}
@@ -21,6 +21,12 @@ services:
       - DATABASE_URL=${DB_URL}
       - DATABASE_USERNAME=${DB_USER}
       - DATABASE_PASSWORD=${DB_PASSWORD}
+      - USE_HIKARI_CONNECTION_POOL=true 
+    depends_on:
+      suwadb:
+        condition: service_healthy
+        restart: true
+    restart: on-failure:3  
     user: "${PUID}:${PGID}"
 
   # --- THE LIBRARIAN ---
@@ -39,6 +45,7 @@ services:
       - KOMGA_USER=${ADMIN_EMAIL}
       - KOMGA_PASSWORD=${ADMIN_PASSWORD}
     user: "${PUID}:${PGID}"
+    restart: on-failure:3
 
   # --- THE METADATA FETCHED ---
   komf:
@@ -55,7 +62,7 @@ services:
       - KOMF_KOMGA_USER=${ADMIN_EMAIL}
       - KOMF_KOMGA_PASSWORD=${ADMIN_PASSWORD}
     user: "${PUID}:${PGID}"
-
+    restart: on-failure:3
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
     image: ghcr.io/flaresolverr/flaresolverr:latest
@@ -85,7 +92,7 @@ services:
       # Maps local folder 'postgres_data' to internal DB folder
       - ./postgres_data:/var/lib/postgresql/data
     user: "${PUID}:${PGID}"
-    
+    restart: on-failure:3
     # Healthcheck ensures other apps don't connect until DB is "Ready"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
