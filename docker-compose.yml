@@ -44,7 +44,6 @@ services:
       - KOMGA_USER=${ADMIN_EMAIL}
       - KOMGA_PASSWORD=${ADMIN_PASSWORD}
     user: "${PUID}:${PGID}"
-    restart: on-failure:3
 
   # --- THE METADATA FETCHED ---
   komf:
@@ -91,7 +90,6 @@ services:
       # Maps local folder 'postgres_data' to internal DB folder
       - ./postgres_data:/var/lib/postgresql/data
     user: "${PUID}:${PGID}"
-    restart: on-failure:3
     # Healthcheck ensures other apps don't connect until DB is "Ready"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
