@@ -10,9 +10,9 @@ services:
       - ./suwayomi/config:/home/suwayomi/.local/share/SuwayomiServer
       - ./manga-library:/home/suwayomi/.local/share/SuwayomiServer/downloads
     environment:
-      - TZ=Etc/UTC
-      # Set Suwayomi to download as CBZ for Komga compatibility
-      - SUWAYOMI_SERVER_DOWNLOAD_AS_CBZ=true 
+      - TZ=${TZ}
+      - SUWAYOMI_SERVER_DOWNLOAD_AS_CBZ=true
+    user: "${PUID}:${PGID}"
 
   # --- THE LIBRARIAN ---
   komga:
@@ -25,7 +25,11 @@ services:
       - ./komga/config:/config
       - ./manga-library:/data
     environment:
-      - TZ=Etc/UTC
+      - TZ=${TZ}
+      # Note: Komga uses these for initial setup or internal auth
+      - KOMGA_USER=${KOMGA_ADMIN_EMAIL}
+      - KOMGA_PASSWORD=${KOMGA_ADMIN_PASSWORD}
+    user: "${PUID}:${PGID}"
 
   # --- THE METADATA FETCHED ---
   komf:
@@ -37,8 +41,9 @@ services:
     volumes:
       - ./komf/config:/config
     environment:
-      - TZ=Etc/UTC
+      - TZ=${TZ}
       - KOMF_KOMGA_BASE_URL=http://komga:25600
-      # You will need to generate a Komga API Key or use credentials
-      - KOMF_KOMGA_USER=admin@example.com
-      - KOMF_KOMGA_PASSWORD=password123
+      - KOMF_KOMGA_USER=${KOMGA_ADMIN_EMAIL}
+      - KOMF_KOMGA_PASSWORD=${KOMGA_ADMIN_PASSWORD}
+    user: "${PUID}:${PGID}"
+
