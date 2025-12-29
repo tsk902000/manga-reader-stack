@@ -26,7 +26,6 @@ services:
       suwadb:
         condition: service_healthy
         restart: true
-    restart: on-failure:3  
     user: "${PUID}:${PGID}"
 
   # --- THE LIBRARIAN ---
