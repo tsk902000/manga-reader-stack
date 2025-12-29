@@ -1,5 +1,5 @@
 komga:
-  baseUri: "${KOMF_KOMGA_BASE_URI}" #or env:KOMF_KOMGA_BASE_URI
+  baseUri: http://komga:25600
   komgaUser: "${KOMGA_ADMIN_EMAIL}"
   komgaPassword: "${KOMGA_ADMIN_PASSWORD}"
   eventListener:
