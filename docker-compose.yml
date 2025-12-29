@@ -1,0 +1,44 @@
+services:
+  # --- THE DOWNLOADER ---
+  suwayomi:
+    image: ghcr.io/suwayomi/suwayomi-server:latest
+    container_name: suwayomi
+    restart: unless-stopped
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./suwayomi/config:/home/suwayomi/.local/share/SuwayomiServer
+      - ./manga-library:/home/suwayomi/.local/share/SuwayomiServer/downloads
+    environment:
+      - TZ=Etc/UTC
+      # Set Suwayomi to download as CBZ for Komga compatibility
+      - SUWAYOMI_SERVER_DOWNLOAD_AS_CBZ=true 
+
+  # --- THE LIBRARIAN ---
+  komga:
+    image: gotson/komga:latest
+    container_name: komga
+    restart: unless-stopped
+    ports:
+      - "25600:25600"
+    volumes:
+      - ./komga/config:/config
+      - ./manga-library:/data
+    environment:
+      - TZ=Etc/UTC
+
+  # --- THE METADATA FETCHED ---
+  komf:
+    image: sndn/komf:latest
+    container_name: komf
+    restart: unless-stopped
+    ports:
+      - "8085:8085"
+    volumes:
+      - ./komf/config:/config
+    environment:
+      - TZ=Etc/UTC
+      - KOMF_KOMGA_BASE_URL=http://komga:25600
+      # You will need to generate a Komga API Key or use credentials
+      - KOMF_KOMGA_USER=admin@example.com
+      - KOMF_KOMGA_PASSWORD=password123
