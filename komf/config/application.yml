@@ -1,7 +1,7 @@
 komga:
-  baseUri: env:KOMF_KOMGA_BASE_URI
-  komgaUser: env:KOMF_KOMGA_USER
-  komgaPassword: env:KOMF_KOMGA_PASSWORD
+  baseUri: "${KOMF_KOMGA_BASE_URI}" #or env:KOMF_KOMGA_BASE_URI
+  komgaUser: "${KOMGA_ADMIN_EMAIL}"
+  komgaPassword: "${KOMGA_ADMIN_PASSWORD}"
   eventListener:
     enabled: false # if disabled will not connect to komga and won't pick up newly added entries
     metadataLibraryFilter: [ ]  # listen to all events if empty
