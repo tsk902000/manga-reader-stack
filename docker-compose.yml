@@ -7,8 +7,8 @@ services:
     ports:
       - "4567:4567"
     volumes:
-      - ./suwayomi/config:/home/suwayomi/.local/share/SuwayomiServer
-      - ./manga-library:/home/suwayomi/.local/share/SuwayomiServer/downloads
+      - ./manga-library:/home/suwayomi/.local/share/Tachidesk/downloads
+      - ./suwayomi/files:/home/suwayomi/.local/share/Tachidesk
     environment:
       - TZ=${TZ}
       - SUWAYOMI_SERVER_DOWNLOAD_AS_CBZ=true
