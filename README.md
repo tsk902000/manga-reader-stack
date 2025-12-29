@@ -3,7 +3,8 @@ Just a docker compose file for Manga Reader Stack
 
 
 # Steps for working
-To make this work seamlessly, follow these three steps after running docker-compose up -d:
+1. `cp .env.examples .env` and change your value
+2. To make this work seamlessly, follow these three steps after running `docker-compose up -d`:
 
 ## 1. Configure Suwayomi for Komga
 Suwayomi downloads manga into a folder structure like: Downloads/Source Name/Manga Title/Chapter.cbz.
@@ -34,7 +35,11 @@ Under Server Settings, ensure the Komga URL is http://komga:25600 (this works be
 
 Once linked, Komf will monitor your Komga library. When Suwayomi drops a new chapter, Komga sees it, and Komf will automatically reach out to AniList/MyAnimeList to grab the metadata.
 
+
+
+# Trouble Shoot
 A Quick Note on File Permissions
 If you are on Linux, ensure the user running Docker has permissions to write to the ./manga-library folder. You can add user: "1000:1000" (replace with your UID/GID) to the services in the YAML if you run into "Permission Denied" errors.
 
-Would you like me to show you how to add the "Kavita" reader to this stack as an alternative to Komga, or are you set on Komga?
+or use `id` to find out your current user id, replace your .env file.
+ 
