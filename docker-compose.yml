@@ -1,7 +1,7 @@
 services:
   # --- THE DOWNLOADER ---
   suwayomi:
-    image: ghcr.io/suwayomi/suwayomi-server:v2.1.2031
+    image: ghcr.io/suwayomi/suwayomi-server:preview
     container_name: suwayomi
     restart: unless-stopped
     ports:
