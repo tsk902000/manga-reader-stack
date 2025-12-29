@@ -17,6 +17,10 @@ services:
       - AUTH_PASSWORD=${ADMIN_PASSWORD}
       - FLARESOLVERR_ENABLED=true
       - FLARESOLVERR_URL=http://flaresolverr:8191
+      - DATABASE_TYPE=POSTGRESQL
+      - DATABASE_URL=${DB_URL}
+      - DATABASE_USERNAME=${DB_USER}
+      - DATABASE_PASSWORD=${DB_PASSWORD}
     user: "${PUID}:${PGID}"
 
   # --- THE LIBRARIAN ---
@@ -64,3 +68,28 @@ services:
     ports:
       - "8191:8191"
     restart: unless-stopped 
+
+  suwadb:
+    image: postgres:17-alpine
+    container_name: suwadb
+    restart: unless-stopped
+    # Use environment variables from the .env file
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "15432:5432"
+    volumes:
+      # Maps local folder 'postgres_data' to internal DB folder
+      - ./postgres_data:/var/lib/postgresql/data
+    user: "${PUID}:${PGID}"
+    
+    # Healthcheck ensures other apps don't connect until DB is "Ready"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    
