@@ -60,7 +60,7 @@ services:
       - KOMF_KOMGA_USER=${ADMIN_EMAIL}
       - KOMF_KOMGA_PASSWORD=${ADMIN_PASSWORD}
     user: "${PUID}:${PGID}"
-    restart: on-failure:3
+
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
     image: ghcr.io/flaresolverr/flaresolverr:latest
