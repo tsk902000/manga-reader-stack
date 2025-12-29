@@ -29,7 +29,7 @@ services:
 
   # --- THE METADATA FETCHED ---
   komf:
-    image: sndn/komf:latest
+    image: sndxr/komf:latest
     container_name: komf
     restart: unless-stopped
     ports:
